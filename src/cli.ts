@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { loadConfig } from "./config.ts";
 
 import { fileURLToPath } from "node:url";
 
