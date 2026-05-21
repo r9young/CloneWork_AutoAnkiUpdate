@@ -11,11 +11,14 @@
  * app/database compare this snapshot with previous snapshot
  */
 
+import { loadConfig } from "./config.ts";
 import type { ScannedFile } from "./types.ts";
 
+const config = loadConfig();
 
-
-function scanFiles(watchDir: string): ScannedFile[] {
-   // scan folder
-   return [];
+export function scanFiles(watchDir = config.watchDir): ScannedFile[] {
+   if (!watchDir) {
+      throw new Error("watchDir is not defined in config");
+   }
 }
+
