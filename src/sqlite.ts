@@ -6,6 +6,13 @@
     // Make sure the folder for the database exists.
     // Provide methods to run SQL.
 
+// TypeScript, send this SQL command to my SQLite database,
+// run it, convert the result,and give me JavaScript data back.
+//
+// run() changes the database.
+// all() gets many results.
+// get() gets one result.
+
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
