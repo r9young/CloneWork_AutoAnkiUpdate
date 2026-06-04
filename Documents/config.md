@@ -5,7 +5,7 @@ Process is a built-in global object in Node.js. You might ask where is the Node.
 
 The start point is config.json
 
-```
+```typescript
 
 {
   "scripts": {
@@ -104,3 +104,63 @@ const watchDir = path.resolve(cwd, "watch");
 
 Result would be: /Users/maomao/my-app/watch
 
+## What does the function loadConfig return?
+
+it will return an object. but you might ask why it is an object? Because of the curly brace { } after return:
+
+```typescript
+
+return {
+    watchDir,
+    databasePath,
+    reviewPath,
+    openAiApiKey,
+    openAiModel,
+    ankiConnectUrl,
+    ankiDeck,
+    ankiNoteType
+}
+
+```
+
+Also, Typescript gives another clue here:
+
+  `export function loadConfig(cwd = process.cwd()): Config`
+
+The : Config means: This function should return something with the Config shape. Config is an object type, it looks like the following and you can find it in the type.ts.
+
+```typescript
+
+type Config = {
+  watchDir: string;
+  databasePath: string;
+  reviewPath: string;
+  openAiApiKey: string | undefined;
+  openAiModel: string;
+  ankiConnectUrl: string;
+  ankiDeck: string;
+  ankiNoteType: string;
+};
+
+```
+
+## What would be the final return ?
+
+```typescript
+
+return {
+  watchDir: "/Users/yang/Documents/AutoAnkiUpdate_Clone/watch",
+  databasePath: "/Users/yang/Documents/AutoAnkiUpdate_Clone/database.db",
+  reviewPath: "/Users/yang/Documents/AutoAnkiUpdate_Clone/review",
+  openAiApiKey: process.env.OPENAI_API_KEY,
+  openAiModel: "gpt-4",
+  ankiConnectUrl: "http://localhost:8765",
+  ankiDeck: "Default",
+  ankiNoteType: "Basic"
+};
+
+```
+
+## Why we created the path-resolve sub-app
+
+To make `path.resolve()` easier to understand, we created a small independent app at `sub-apps/path-resolve`. This app is only for learning and practice. It shows the same idea from `config.ts` in a simpler example: first use `path.resolve()` to create a lesson folder path, then use `path.resolve()` again to create the Word file path inside that folder. This helps us see that `path.resolve()` is not creating the folder by itself; it is only building the full absolute path string. The actual folder and file are created afterward by `fs.mkdirSync()` and `fs.writeFileSync()`.
